@@ -1,25 +1,50 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+
+import { useGetMusicData } from './services/useGetMusicData';
+
+import SongsList from './components/SongsList/SongsList';
+import SongPlayer from './components/SongPlayer/SongPlayer';
+
 import './App.css';
 
-function App() {
+const App = () => {
+  //make error compoennt
+  //make loading component
+  const { data, errorMessage, isPending, fetchData } = useGetMusicData();
+
+  const handleRefresh = () => {
+    fetchData();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const errorElement = errorMessage ? (
+    <div>
+      <button onClick={handleRefresh}>Refresh</button>
+      <p>{errorMessage}</p>
+    </div>
+  ) : (
+    <div>LOADING...</div>
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div>
+      <header>
+        <h1>Spotify-like App</h1>
       </header>
+
+      {isPending ? (
+        <>{errorElement}</>
+      ) : (
+        <>
+          <SongPlayer songs={data} />
+          <SongsList songs={data} />
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default App;

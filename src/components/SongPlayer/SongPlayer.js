@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import SongPlayerControls from '../SongPlayerControls/SongPlayerControls';
+
+import './SongPlayer.css';
 
 const SongPlayer = ({ songs }) => {
   const [currentSong, setCurrentSong] = useState(songs[0]);
@@ -98,17 +101,20 @@ const SongPlayer = ({ songs }) => {
   }, [handleNext]);
 
   return (
-    <section>
-      <h2>{currentSong.title}</h2>
-      <p>{currentSong.author}</p>
-      <img src={currentSong.cover} alt='title' />
-      <p>
+    <section className='songplayer-container'>
+      <h2 className='song-title'>{currentSong.title}</h2>
+      <p className='song-author'>{currentSong.author}</p>
+      <div className='songplayer-img-container'>
+        <img src={currentSong.cover} alt='title' />
+      </div>
+
+      <p className='song-credits'>
         Music:{' '}
         <a href='https://www.bensound.com/' rel='noreferrer' target='_blank'>
           Bensound
         </a>
       </p>
-      <audio ref={audioRef} controls src={currentSong.URL}></audio>
+      <audio ref={audioRef} src={currentSong.URL}></audio>
       <SongPlayerControls
         handleNext={handleNext}
         handlePrevious={handlePrevious}

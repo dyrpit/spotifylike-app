@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './SongPlayerControls.css';
+
 const SongPlayerControls = ({
   handleNext,
   handlePrevious,
@@ -32,7 +34,7 @@ const SongPlayerControls = ({
       <button className='controls-button' onClick={handleNext}>
         <i className='fas fa-step-forward'></i>
       </button>
-      <button onClick={toggleLoop}>
+      <button className='controls-button' onClick={toggleLoop}>
         <i className='fas fa-sync'></i>
       </button>
       <input

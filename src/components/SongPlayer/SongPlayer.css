@@ -1,0 +1,40 @@
+.songplayer-container {
+  text-align: center;
+}
+
+.songplayer-img-container {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.songplayer-img-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 3px;
+}
+
+.song-title {
+  padding: 5px;
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+
+.song-author {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.song-credits {
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.song-credits a {
+  color: white;
+  text-decoration: none;
+}
+
+.song-credits a:hover {
+  text-decoration: underline;
+}

@@ -1,4 +1,10 @@
-img {
-  width: 200px;
-  height: 200px;
+.container {
+  height: 100%;
+  width: 80%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, rgba(70, 70, 70, 1) 0%, rgba(0, 0, 0, 1) 50%);
 }

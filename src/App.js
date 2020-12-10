@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useGetMusicData } from './services/useGetMusicData';
 
+import Header from './components/Header/Header';
 import SongsList from './components/SongsList/SongsList';
 import SongPlayer from './components/SongPlayer/SongPlayer';
 
@@ -30,10 +31,8 @@ const App = () => {
   );
 
   return (
-    <div>
-      <header>
-        <h1>Spotify-like App</h1>
-      </header>
+    <div className='container'>
+      <Header />
 
       {isPending ? (
         <>{errorElement}</>

@@ -12,3 +12,13 @@
 .playlist-container ul {
   list-style-type: none;
 }
+
+.playlist-item {
+  padding: 5px;
+  font-size: 18px;
+  display: flex;
+}
+
+.playlist-item.active {
+  background-color: #333;
+}

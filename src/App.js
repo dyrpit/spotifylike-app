@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useGetMusicData } from './services/useGetMusicData';
 
 import Header from './components/Header/Header';
-import SongsList from './components/SongsList/SongsList';
 import SongPlayer from './components/SongPlayer/SongPlayer';
 
 import './App.css';
@@ -39,7 +38,6 @@ const App = () => {
       ) : (
         <>
           <SongPlayer songs={data} />
-          <SongsList songs={data} />
         </>
       )}
     </div>

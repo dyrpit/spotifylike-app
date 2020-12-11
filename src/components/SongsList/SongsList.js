@@ -2,16 +2,28 @@ import React from 'react';
 
 import './SongsList.css';
 
-const SongsList = ({ songs }) => {
+const SongsList = ({ handleChangeSong, songs, songId }) => {
   return (
     <section className='playlist-container'>
       <h3 className='section-title'>Playlist</h3>
       <ul>
-        {songs.map((song) => (
-          <li key={song.title} onClick={() => console.log('lol')}>
-            {song.title}
-          </li>
-        ))}
+        {songs.map((song) => {
+          const activeClass = songId === song.id ? 'active' : '';
+
+          console.log(activeClass);
+
+          return (
+            <li
+              className={`playlist-item ${activeClass}`}
+              key={song.title}
+              onClick={() => handleChangeSong(song)}
+            >
+              <p>
+                {song.id}. {song.title}
+              </p>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

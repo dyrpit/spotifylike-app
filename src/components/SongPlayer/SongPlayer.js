@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import SongsList from '../SongsList/SongsList';
 import SongPlayerControls from '../SongPlayerControls/SongPlayerControls';
+import SongProgressBar from '../SongProgressBar/SongProgressBar';
 
 import './SongPlayer.css';
 
@@ -11,9 +13,9 @@ const SongPlayer = ({ songs }) => {
 
   const audioRef = useRef({});
 
-  // const handleChangeSong = (song) => {
-  //   setCurrentSong(song);
-  // };
+  const handleChangeSong = (song) => {
+    setCurrentSong(song);
+  };
 
   const handleNext = useCallback(() => {
     const index = songs.findIndex((song) => song.title === currentSong.title);
@@ -101,31 +103,35 @@ const SongPlayer = ({ songs }) => {
   }, [handleNext]);
 
   return (
-    <section className='songplayer-container'>
-      <h2 className='song-title'>{currentSong.title}</h2>
-      <p className='song-author'>{currentSong.author}</p>
-      <div className='songplayer-img-container'>
-        <img src={currentSong.cover} alt='title' />
-      </div>
+    <>
+      <section className='songplayer-container'>
+        <h2 className='song-title'>{currentSong.title}</h2>
+        <p className='song-author'>{currentSong.author}</p>
+        <div className='songplayer-img-container'>
+          <img src={currentSong.cover} alt='title' />
+        </div>
 
-      <p className='song-credits'>
-        Music:{' '}
-        <a href='https://www.bensound.com/' rel='noreferrer' target='_blank'>
-          Bensound
-        </a>
-      </p>
-      <audio ref={audioRef} src={currentSong.URL}></audio>
-      <SongPlayerControls
-        handleNext={handleNext}
-        handlePrevious={handlePrevious}
-        handleVolumeChange={handleVolumeChange}
-        isPaused={isPaused}
-        toggleLoop={toggleLoop}
-        toggleMute={toggleMute}
-        togglePlay={togglePlay}
-        volumeInputValue={volumeInputValue}
-      />
-    </section>
+        <p className='song-credits'>
+          Music:{' '}
+          <a href='https://www.bensound.com/' rel='noreferrer' target='_blank'>
+            Bensound
+          </a>
+        </p>
+        <audio ref={audioRef} src={currentSong.URL}></audio>
+        <SongPlayerControls
+          handleNext={handleNext}
+          handlePrevious={handlePrevious}
+          handleVolumeChange={handleVolumeChange}
+          isPaused={isPaused}
+          toggleLoop={toggleLoop}
+          toggleMute={toggleMute}
+          togglePlay={togglePlay}
+          volumeInputValue={volumeInputValue}
+        />
+        <SongProgressBar ref={audioRef} />
+      </section>
+      <SongsList songs={songs} songId={currentSong.id} handleChangeSong={handleChangeSong} />
+    </>
   );
 };
 

@@ -15,6 +15,14 @@
   outline: none;
 }
 
+.controls-button.active {
+  color: #1ed760;
+}
+
 .controls-button:hover {
   color: white;
+}
+
+.controls-button.active:hover {
+  color: #17e45f;
 }

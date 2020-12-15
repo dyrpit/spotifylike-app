@@ -9,68 +9,80 @@ import './SongPlayer.css';
 const SongPlayer = ({ songs }) => {
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [volumeInputValue, setVolumeInputValue] = useState(100);
-  const [isPaused, setIsPaused] = useState(false);
+  //state: { stopped}
+  const [isLooping, setIsLooping] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
+  const [isShuffled, setIsShuffled] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
-  const audioRef = useRef({});
+  const audioRef = useRef(null);
 
   const handleChangeSong = (song) => {
     setCurrentSong(song);
   };
 
-  const handleNext = useCallback(() => {
-    const index = songs.findIndex((song) => song.title === currentSong.title);
-    if (songs.length - 1 === index) {
-      setCurrentSong(songs[0]);
-    } else {
-      setCurrentSong(songs[index + 1]);
-    }
-  }, [currentSong.title, songs]);
+  //handle song change while shuffled
 
-  const handlePrevious = useCallback(() => {
-    const index = songs.findIndex((song) => song.title === currentSong.title);
+  const handleSkipSong = useCallback(
+    (direction) => {
+      const index = songs.findIndex((song) => song.title === currentSong.title);
 
-    if (!index) {
-      setCurrentSong(songs[songs.length - 1]);
-    } else {
-      setCurrentSong(songs[index - 1]);
-    }
-  }, [currentSong?.title, songs]);
+      if (direction === 'forward') {
+        songs.length - 1 === index ? setCurrentSong(songs[0]) : setCurrentSong(songs[index + 1]);
+      } else if (direction === 'backward') {
+        !index ? setCurrentSong(songs[songs.length - 1]) : setCurrentSong(songs[index - 1]);
+      }
+    },
+    [currentSong.title, songs]
+  );
 
   const handleKeyboardKeys = useCallback(
     (e) => {
-      console.log(e);
       if (e.key === 'MediaTrackNext') {
-        handleNext();
+        handleSkipSong('forward');
       } else if (e.key === 'MediaTrackPrevious') {
-        handlePrevious();
+        handleSkipSong('backward');
       }
     },
-    [handleNext, handlePrevious]
+    [handleSkipSong]
   );
 
   const handleVolumeChange = (e) => {
     const { value } = e.target;
-
-    setVolumeInputValue(parseFloat(value));
-    audioRef.current.volume = parseFloat(value) / 100;
+    setVolumeInputValue(Number(value));
+    audioRef.current.volume = Number(value) / 100;
   };
 
   const toggleLoop = () => {
+    setIsLooping(!audioRef.current.loop);
     audioRef.current.loop = !audioRef.current.loop;
   };
 
   const toggleMute = () => {
-    if (audioRef.current.muted) {
+    if (isMuted) {
+      setIsMuted((prev) => !prev);
       setVolumeInputValue(audioRef.current.volume * 100);
     } else {
+      setIsMuted((prev) => !prev);
       setVolumeInputValue(0);
     }
 
-    audioRef.current.muted = !audioRef.current.muted;
+    audioRef.current.muted = !isMuted;
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffled((prev) => !prev);
+  };
+
+  const play = () => {
+    audioRef.current.play();
+    setIsPaused(false);
   };
 
   const togglePlay = () => {
-    if (audioRef.current.paused) {
+    if (isPaused) {
       audioRef.current.play();
       setIsPaused((prev) => !prev);
     } else {
@@ -86,21 +98,29 @@ const SongPlayer = ({ songs }) => {
   }, [handleKeyboardKeys]);
 
   useEffect(() => {
-    if (currentSong) {
-      audioRef.current.autoplay = true;
-      setIsPaused(true);
+    const handletimeUpdate = (e) => {
+      setCurrentTime(e.target.currentTime);
+      setDuration(e.target.duration);
+    };
+
+    const handleLoadedDataUpdate = () => play();
+
+    const handleEndedSong = () => handleSkipSong('forward');
+
+    if (audioRef && audioRef.current) {
+      const audio = audioRef.current;
+
+      audio.addEventListener('timeupdate', handletimeUpdate);
+      audio.addEventListener('loadeddata', handleLoadedDataUpdate);
+      audio.addEventListener('ended', handleEndedSong);
+
+      return () => {
+        audio.removeEventListener('timeupdate', handletimeUpdate);
+        audio.removeEventListener('loadeddata', handleLoadedDataUpdate);
+        audio.removeEventListener('ended', handleEndedSong);
+      };
     }
-  }, [currentSong]);
-
-  useEffect(() => {
-    const index = setInterval(() => {
-      if (audioRef.current.ended) {
-        handleNext();
-      }
-    }, 1000);
-
-    return () => clearInterval(index);
-  }, [handleNext]);
+  }, [handleSkipSong]);
 
   return (
     <>
@@ -119,16 +139,18 @@ const SongPlayer = ({ songs }) => {
         </p>
         <audio ref={audioRef} src={currentSong.URL}></audio>
         <SongPlayerControls
-          handleNext={handleNext}
-          handlePrevious={handlePrevious}
+          handleSkipSong={handleSkipSong}
           handleVolumeChange={handleVolumeChange}
+          isLooping={isLooping}
           isPaused={isPaused}
+          isShuffled={isShuffled}
           toggleLoop={toggleLoop}
           toggleMute={toggleMute}
           togglePlay={togglePlay}
+          toggleShuffle={toggleShuffle}
           volumeInputValue={volumeInputValue}
         />
-        <SongProgressBar ref={audioRef} />
+        <SongProgressBar currentTime={currentTime} duration={duration} />
       </section>
       <SongsList songs={songs} songId={currentSong.id} handleChangeSong={handleChangeSong} />
     </>

@@ -16,26 +16,48 @@ const SongPlayer = ({ songs }) => {
   const [isShuffled, setIsShuffled] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [shuffledSongs, setShuffledSongs] = useState([]);
 
   const audioRef = useRef(null);
 
-  const handleChangeSong = (song) => {
+  const handleSongChange = (song) => {
     setCurrentSong(song);
   };
 
-  //handle song change while shuffled
+  const shuffleSongs = useCallback(() => {
+    const songsCopy = [...songs];
+    const shuffledSongsList = [];
+
+    while (songsCopy.length) {
+      const randomIndex = Math.floor(Math.random() * songsCopy.length);
+      const [removed] = songsCopy.splice(randomIndex, 1);
+      shuffledSongsList.push(removed);
+    }
+    setShuffledSongs(shuffledSongsList);
+  }, [songs]);
 
   const handleSkipSong = useCallback(
     (direction) => {
-      const index = songs.findIndex((song) => song.title === currentSong.title);
+      const songIndex = songs.findIndex((song) => song.title === currentSong.title);
+      const shuffledsongIndex = shuffledSongs.findIndex((song) => song.title === currentSong.title);
 
-      if (direction === 'forward') {
-        songs.length - 1 === index ? setCurrentSong(songs[0]) : setCurrentSong(songs[index + 1]);
-      } else if (direction === 'backward') {
-        !index ? setCurrentSong(songs[songs.length - 1]) : setCurrentSong(songs[index - 1]);
+      if (direction === 'forward' && !isShuffled) {
+        songs.length - 1 === songIndex
+          ? setCurrentSong(songs[0])
+          : setCurrentSong(songs[songIndex + 1]);
+      } else if (direction === 'forward' && isShuffled) {
+        shuffledSongs.length - 1 === shuffledsongIndex
+          ? setCurrentSong(shuffledSongs[0])
+          : setCurrentSong(shuffledSongs[shuffledsongIndex + 1]);
+      } else if (direction === 'backward' && !isShuffled) {
+        !songIndex ? setCurrentSong(songs[songs.length - 1]) : setCurrentSong(songs[songIndex - 1]);
+      } else if (direction === 'backward' && isShuffled) {
+        !shuffledsongIndex
+          ? setCurrentSong(shuffledSongs[shuffledSongs.length - 1])
+          : setCurrentSong(shuffledSongs[shuffledsongIndex - 1]);
       }
     },
-    [currentSong.title, songs]
+    [currentSong.title, shuffledSongs, isShuffled, songs]
   );
 
   const handleKeyboardKeys = useCallback(
@@ -73,6 +95,11 @@ const SongPlayer = ({ songs }) => {
   };
 
   const toggleShuffle = () => {
+    if (!isShuffled) {
+      shuffleSongs();
+    } else {
+      setShuffledSongs([]);
+    }
     setIsShuffled((prev) => !prev);
   };
 
@@ -152,7 +179,7 @@ const SongPlayer = ({ songs }) => {
         />
         <SongProgressBar currentTime={currentTime} duration={duration} />
       </section>
-      <SongsList songs={songs} songId={currentSong.id} handleChangeSong={handleChangeSong} />
+      <SongsList songs={songs} songId={currentSong.id} handleChangeSong={handleSongChange} />
     </>
   );
 };

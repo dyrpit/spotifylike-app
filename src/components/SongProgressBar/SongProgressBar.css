@@ -1,0 +1,67 @@
+.timebar-wrapper {
+  position: relative;
+  margin: 0 100px;
+  background-color: #333;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+}
+
+.time {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+.duration {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+.bar-wrapper {
+  position: absolute;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 2px solid #555;
+  border-radius: 5px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 2px solid white;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.bar-wrapper:hover .progress-bar {
+  border-color: #1ed760;
+}
+
+.bar-wrapper:hover .progress-bar::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: white;
+}

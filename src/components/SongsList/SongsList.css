@@ -22,4 +22,9 @@
 
 .playlist-item.active {
   background-color: #333;
+  color: #1ed760;
+}
+
+.playlist-item:hover {
+  background-color: #555;
 }

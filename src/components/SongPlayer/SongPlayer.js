@@ -4,6 +4,8 @@ import SongsList from '../SongsList/SongsList';
 import SongPlayerControls from '../SongPlayerControls/SongPlayerControls';
 import SongProgressBar from '../SongProgressBar/SongProgressBar';
 
+import { getTimeFromWidth } from '../../utils/getTimeFromWidth';
+
 import './SongPlayer.css';
 
 const SongPlayer = ({ songs }) => {
@@ -19,6 +21,15 @@ const SongPlayer = ({ songs }) => {
   const [shuffledSongs, setShuffledSongs] = useState([]);
 
   const audioRef = useRef(null);
+
+  const handleCurrentTimeChange = (e) => {
+    const [barWrapper] = [...document.getElementsByClassName('bar-wrapper')];
+    const positionFromLeft = barWrapper.getBoundingClientRect().left;
+    const newPosition = e.pageX - positionFromLeft;
+    const newTime = getTimeFromWidth(duration, newPosition);
+    setCurrentTime(newTime);
+    audioRef.current.currentTime = newTime;
+  };
 
   const handleSongChange = (song) => {
     setCurrentSong(song);
@@ -177,7 +188,11 @@ const SongPlayer = ({ songs }) => {
           toggleShuffle={toggleShuffle}
           volumeInputValue={volumeInputValue}
         />
-        <SongProgressBar currentTime={currentTime} duration={duration} />
+        <SongProgressBar
+          currentTime={currentTime}
+          duration={duration}
+          handleCurrentTimeChange={handleCurrentTimeChange}
+        />
       </section>
       <SongsList songs={songs} songId={currentSong.id} handleChangeSong={handleSongChange} />
     </>

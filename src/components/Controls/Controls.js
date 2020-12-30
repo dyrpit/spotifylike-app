@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './SongPlayerControls.css';
+import './Controls.css';
 
-const SongPlayerControls = ({
+const Controls = ({
   handleSkipSong,
   handleVolumeChange,
   isLooping,
@@ -56,4 +56,4 @@ const SongPlayerControls = ({
   );
 };
 
-export default SongPlayerControls;
+export default Controls;

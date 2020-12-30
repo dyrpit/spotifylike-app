@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { fetchMusicData } from './fakeAPI';
+import { fetchMusicData } from '../services/fakeAPI';
 
 export const useGetMusicData = () => {
   const [isPending, setIsPending] = useState(true);

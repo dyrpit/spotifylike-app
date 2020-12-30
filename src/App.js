@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 
-import { useGetMusicData } from './services/useGetMusicData';
+import { useGetMusicData } from './hooks/useGetMusicData';
 
 import Header from './components/Header/Header';
-import SongPlayer from './components/SongPlayer/SongPlayer';
+import Player from './components/Player/Player';
 
 import './App.css';
 
 const App = () => {
   //make error compoennt
   //make loading component
+  //add proptypes
+  //add responsivnes
   const { data, errorMessage, isPending, fetchData } = useGetMusicData();
 
   const handleRefresh = () => {
@@ -37,7 +39,7 @@ const App = () => {
         <>{errorElement}</>
       ) : (
         <>
-          <SongPlayer songs={data} />
+          <Player songs={data} />
         </>
       )}
     </div>

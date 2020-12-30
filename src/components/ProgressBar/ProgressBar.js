@@ -4,9 +4,9 @@ import { useCurrentWidth } from '../../hooks/useCurrentWidth';
 import { getCurrenProgressBarWidth } from '../../utils/getCurrentProgressBarWidth';
 import { getTime } from '../../utils/getTime';
 
-import './SongProgressBar.css';
+import './ProgressBar.css';
 
-const SongProgressBar = ({ currentTime, duration, handleCurrentTimeChange }) => {
+const ProgressBar = ({ currentTime, duration, handleCurrentTimeChange }) => {
   const formatedDuration = getTime(duration);
   const formatedCurrentTime = getTime(currentTime);
   const currentWidth = getCurrenProgressBarWidth(currentTime, duration) || 0;
@@ -25,4 +25,4 @@ const SongProgressBar = ({ currentTime, duration, handleCurrentTimeChange }) => 
   );
 };
 
-export default SongProgressBar;
+export default ProgressBar;

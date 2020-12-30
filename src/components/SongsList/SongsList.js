@@ -1,4 +1,7 @@
 import React from 'react';
+import propTypes from 'prop-types';
+
+import Song from '../Song/Song';
 
 import './SongsList.css';
 
@@ -7,24 +10,22 @@ const SongsList = ({ handleChangeSong, songId, songs }) => {
     <section className='playlist-container'>
       <h3 className='section-title'>Playlist</h3>
       <ul>
-        {songs.map((song) => {
-          const activeClass = songId === song.id ? 'active' : '';
-
-          return (
-            <li
-              className={`playlist-item ${activeClass}`}
-              key={song.title}
-              onClick={() => handleChangeSong(song)}
-            >
-              <p>
-                {song.id}. {song.title}
-              </p>
-            </li>
-          );
-        })}
+        {songs.map((song) => (
+          <Song
+            active={songId === song.id ? 'active' : ''}
+            handleChangeSong={handleChangeSong}
+            song={song}
+          />
+        ))}
       </ul>
     </section>
   );
+};
+
+SongsList.propTypes = {
+  handleChangeSong: propTypes.func.isRequired,
+  songId: propTypes.number.isRequired,
+  songs: propTypes.array.isRequired,
 };
 
 export default SongsList;

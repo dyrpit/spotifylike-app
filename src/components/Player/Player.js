@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import SongsList from '../SongsList/SongsList';
-import SongPlayerControls from '../SongPlayerControls/SongPlayerControls';
-import SongProgressBar from '../SongProgressBar/SongProgressBar';
+import Controls from '../Controls/Controls';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
 import { getTimeFromWidth } from '../../utils/getTimeFromWidth';
 
-import './SongPlayer.css';
+import './Player.css';
 
-const SongPlayer = ({ songs }) => {
+const Player = ({ songs }) => {
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [volumeInputValue, setVolumeInputValue] = useState(100);
   //state: { stopped}
@@ -176,7 +176,7 @@ const SongPlayer = ({ songs }) => {
           </a>
         </p>
         <audio ref={audioRef} src={currentSong.URL}></audio>
-        <SongPlayerControls
+        <Controls
           handleSkipSong={handleSkipSong}
           handleVolumeChange={handleVolumeChange}
           isLooping={isLooping}
@@ -188,7 +188,7 @@ const SongPlayer = ({ songs }) => {
           toggleShuffle={toggleShuffle}
           volumeInputValue={volumeInputValue}
         />
-        <SongProgressBar
+        <ProgressBar
           currentTime={currentTime}
           duration={duration}
           handleCurrentTimeChange={handleCurrentTimeChange}
@@ -199,4 +199,4 @@ const SongPlayer = ({ songs }) => {
   );
 };
 
-export default SongPlayer;
+export default Player;

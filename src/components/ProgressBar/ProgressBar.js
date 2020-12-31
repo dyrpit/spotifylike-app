@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { useCurrentWidth } from '../../hooks/useCurrentWidth';
 
 import { getCurrenProgressBarWidth } from '../../utils/getCurrentProgressBarWidth';
@@ -23,6 +24,12 @@ const ProgressBar = ({ currentTime, duration, handleCurrentTimeChange }) => {
       <p className='duration'>{formatedDuration}</p>
     </div>
   );
+};
+
+ProgressBar.propTypes = {
+  currentTime: propTypes.number.isRequired,
+  duration: propTypes.number.isRequired,
+  handleCurrentTimeChange: propTypes.func.isRequired,
 };
 
 export default ProgressBar;

@@ -23,7 +23,7 @@ const Player = ({ songs }) => {
   const audioRef = useRef(null);
 
   const handleCurrentTimeChange = (e) => {
-    const [barWrapper] = [...document.getElementsByClassName('bar-wrapper')];
+    const barWrapper = document.querySelector('.bar-wrapper');
     const positionFromLeft = barWrapper.getBoundingClientRect().left;
     const newPosition = e.pageX - positionFromLeft;
     const newTime = getTimeFromWidth(duration, newPosition);
@@ -141,20 +141,16 @@ const Player = ({ songs }) => {
       setDuration(e.target.duration);
     };
 
-    const handleLoadedDataUpdate = () => play();
-
     const handleEndedSong = () => handleSkipSong('forward');
 
     if (audioRef && audioRef.current) {
       const audio = audioRef.current;
 
       audio.addEventListener('timeupdate', handletimeUpdate);
-      audio.addEventListener('loadeddata', handleLoadedDataUpdate);
       audio.addEventListener('ended', handleEndedSong);
 
       return () => {
         audio.removeEventListener('timeupdate', handletimeUpdate);
-        audio.removeEventListener('loadeddata', handleLoadedDataUpdate);
         audio.removeEventListener('ended', handleEndedSong);
       };
     }

@@ -2,15 +2,14 @@ import React, { useEffect } from 'react';
 
 import { useGetMusicData } from './hooks/useGetMusicData';
 
+import Error from './components/Error/Error';
 import Header from './components/Header/Header';
+import Pending from './components/Pending/Pending';
 import Player from './components/Player/Player';
 
 import './App.css';
 
 const App = () => {
-  //make error compoennt
-  //make loading component
-  //add proptypes
   //add responsivnes
   const { data, errorMessage, isPending, fetchData } = useGetMusicData();
 
@@ -22,26 +21,12 @@ const App = () => {
     fetchData();
   }, [fetchData]);
 
-  const errorElement = errorMessage ? (
-    <div>
-      <button onClick={handleRefresh}>Refresh</button>
-      <p>{errorMessage}</p>
-    </div>
-  ) : (
-    <div>LOADING...</div>
-  );
-
   return (
     <div className='container'>
       <Header />
-
-      {isPending ? (
-        <>{errorElement}</>
-      ) : (
-        <>
-          <Player songs={data} />
-        </>
-      )}
+      <Pending isPending={isPending} message={errorMessage} />
+      <Error handleRefresh={handleRefresh} message={errorMessage} />
+      {data && <Player songs={data} />}
     </div>
   );
 };

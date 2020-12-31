@@ -12,6 +12,7 @@ const SongsList = ({ handleChangeSong, songId, songs }) => {
       <ul>
         {songs.map((song) => (
           <Song
+            key={song.id}
             active={songId === song.id ? 'active' : ''}
             handleChangeSong={handleChangeSong}
             song={song}

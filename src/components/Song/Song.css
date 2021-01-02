@@ -13,3 +13,21 @@
 .playlist-item:hover {
   background-color: #555;
 }
+
+@media (min-width: 360px), (max-width: 360px) {
+  .playlist-item {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 640px) {
+  .playlist-item {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .playlist-item {
+    font-size: 22px;
+  }
+}

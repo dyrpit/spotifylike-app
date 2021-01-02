@@ -11,7 +11,6 @@ import './Player.css';
 const Player = ({ songs }) => {
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [volumeInputValue, setVolumeInputValue] = useState(100);
-  //state: { stopped}
   const [isLooping, setIsLooping] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
@@ -23,10 +22,7 @@ const Player = ({ songs }) => {
   const audioRef = useRef(null);
 
   const handleCurrentTimeChange = (e) => {
-    const barWrapper = document.querySelector('.bar-wrapper');
-    const positionFromLeft = barWrapper.getBoundingClientRect().left;
-    const newPosition = e.pageX - positionFromLeft;
-    const newTime = getTimeFromWidth(duration, newPosition);
+    const newTime = getTimeFromWidth(duration, e.pageX);
     setCurrentTime(newTime);
     audioRef.current.currentTime = newTime;
   };
@@ -143,15 +139,19 @@ const Player = ({ songs }) => {
 
     const handleEndedSong = () => handleSkipSong('forward');
 
+    const handlePlay = () => play();
+
     if (audioRef && audioRef.current) {
       const audio = audioRef.current;
 
       audio.addEventListener('timeupdate', handletimeUpdate);
       audio.addEventListener('ended', handleEndedSong);
+      audio.addEventListener('loadeddata', handlePlay);
 
       return () => {
         audio.removeEventListener('timeupdate', handletimeUpdate);
         audio.removeEventListener('ended', handleEndedSong);
+        audio.removeEventListener('loadeddata', handlePlay);
       };
     }
   }, [handleSkipSong]);

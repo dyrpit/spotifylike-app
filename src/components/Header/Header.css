@@ -42,3 +42,84 @@
   top: 80%;
   width: 50%;
 }
+
+@media (min-width: 360px), (max-width: 360px) {
+  .header-conatiner {
+    padding: 5px;
+  }
+
+  .header-title {
+    font-size: 30px;
+    padding-right: 30px;
+  }
+
+  .logo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .logo .bar {
+    width: 75%;
+    height: 40%;
+    border-radius: 50%;
+    border: 3px solid black;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+
+  .logo .bar:nth-child(2) {
+    width: 65%;
+  }
+
+  .logo .bar:nth-child(3) {
+    width: 55%;
+  }
+}
+
+@media (min-width: 640px) {
+  .header-conatiner {
+    padding: 10px;
+  }
+
+  .header-title {
+    flex-grow: 1;
+    font-size: 40px;
+    padding-right: 0;
+  }
+
+  .logo {
+    height: 60px;
+    width: 60px;
+  }
+
+  .logo .bar {
+    border: 4px solid black;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-conatiner {
+    padding: 20px;
+  }
+
+  .header-title {
+    flex-grow: 1;
+    font-size: 50px;
+  }
+
+  .logo {
+    height: 80px;
+    width: 80px;
+  }
+
+  .logo .bar {
+    border: 5px solid black;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+}

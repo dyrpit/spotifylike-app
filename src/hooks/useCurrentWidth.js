@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { getWidth } from '../utils/getWidth';
+import { getElementWidth } from '../utils/getElementWidth';
 
-export const useCurrentWidth = (delay) => {
-  const [width, setWidth] = useState(getWidth());
+export const useCurrentWidth = (elementName, delay = 20) => {
+  const [width, setWidth] = useState(getElementWidth(elementName));
 
   useEffect(() => {
     let timeoutId = null;
@@ -11,13 +11,13 @@ export const useCurrentWidth = (delay) => {
     const handleResize = () => {
       clearInterval(timeoutId);
 
-      timeoutId = setTimeout(() => setWidth(getWidth()), delay);
+      timeoutId = setTimeout(() => setWidth(getElementWidth(elementName)), delay);
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
-  }, [delay]);
+  }, [delay, elementName]);
 
   return width;
 };

@@ -26,3 +26,39 @@
 .controls-button.active:hover {
   color: #17e45f;
 }
+
+@media (min-width: 360px), (max-width: 360px) {
+  .controls {
+    margin: 0;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .controls-button {
+    padding: 5px;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 640px) {
+  .controls {
+    padding: 15px;
+  }
+
+  .controls-button {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .controls {
+    padding: 20px;
+  }
+
+  .controls-button {
+    padding: 10px 30px;
+    font-size: 20px;
+  }
+}
